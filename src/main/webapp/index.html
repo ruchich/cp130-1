@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv = "Content=Type" content = "text/html"; charset = ISO-8859-1">
+  <title>Stock Quote Servlet</title>
+ </head>
+ <body>
+  <a href = "http://localhost:8080/StockQuote/QuoteServlet?symbol=GOOG&rstype=html">GOOG(html)</a>
+  <p>
+  <a href = "http://localhost:8080/StockQuote/QuoteServlet?symbol=GOOG&rstype=json">GOOG(json)</a>
+  <p>
+ <a href = "http://localhost:8080/StockQuote/QuoteServlet?symbol=GOOG&rstype=plain">GOOG(plain)</a>
+  <p>
+ <a href = "http://localhost:8080/StockQuote/QuoteServlet?symbol=GOOG&rstype=xml">GOOG(xml)</a>
+  
+  
+  <form id="get-quote" action= "http://localhost:8080/StockQuote/QuoteServlet" method="post">
+   Stock Symbol:
+   <select name =symbol size=1>
+    <option value=AAPL>Apple
+    <option value=GOOG>Google
+    <option value=MSFT>Microsoft
+    <option value=ORCL selected>Oracle
+   </select>
+   <br>
+   Format:
+   <input type="radio" name="rstype" value="html" checked>HTML
+   <input type="radio" name="rstype" value="json">JSON
+   <input type="radio" name="rstype" value="plain">PLAIN
+   <input type="radio" name="rstype" value="xml">XML
+   <p>
+   
+   <input type="submit" name="submit_btn" value="Get Quote">
+   
+ 
+ 
+ 
+ </body>

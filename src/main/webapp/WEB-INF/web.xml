@@ -3,5 +3,62 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>CP130 Assignment 7</display-name>
+  <filter>
+	<description>Filter using XSLT to format servlet response</description>
+ 	<display-name>CP130QuoteTransformFilter</display-name>
+    <filter-name>QuoteResponseFormatter</filter-name>
+    <filter-class>edu.uw.ruc.web.QuoteTransformFilter</filter-class>
+    <init-param>
+     	<description>HTML transform</description>
+    	<param-name>html-transform</param-name>
+    	<param-value>/xslt/quote2html.xslt</param-value>
+    </init-param>
+    
+    <init-param>
+     	<description>JSON transform</description>
+    	<param-name>json-transform</param-name>
+    	<param-value>/xslt/quote2json.xslt</param-value>
+    </init-param>
+    
+    <init-param>
+     	<description>Plain transform</description>
+    	<param-name>plain-transform</param-name>
+    	<param-value>/xslt/quote2plain.xslt</param-value>
+    </init-param>
+ </filter> 
+  
+ <filter>
+	<description>Filter to parse JSON request document</description>
+ 	<display-name>CP130 JSON Request Adapter</display-name>
+    <filter-name>JSONRequestAdapter</filter-name>
+    <filter-class>edu.uw.ruc.web.JsonRequestFilter</filter-class>
+ </filter> 
+  
+  <filter-mapping>
+ 	  <filter-name>JSONRequestAdapter</filter-name>
+	  <servlet-name>StockQuoteServlet</servlet-name>
+ </filter-mapping> 
+  
+  
+  <filter-mapping>
+ 	  <filter-name>QuoteResponseFormatter</filter-name>
+	  <servlet-name>StockQuoteServlet</servlet-name>
+ </filter-mapping> 
+  
+  <servlet>
+  	<display-name>CP130 QuoteServlet</display-name>
+    <servlet-name>StockQuoteServlet</servlet-name>
+    <description>Servlet obtaining stock quote from Yahoo Financial Services</description>
+    <servlet-class>edu.uw.ruc.web.YahooStockQuoteServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+ 	  <servlet-name>StockQuoteServlet</servlet-name>
+	  <url-pattern>/QuoteServlet</url-pattern>
+ </servlet-mapping> 
+ <welcome-file-list>
+ 	<welcome-file>index.html</welcome-file>
+ </welcome-file-list>
+  
 </web-app>

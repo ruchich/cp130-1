@@ -26,9 +26,7 @@ import edu.uw.ext.quote.YahooQuote;
 public class YahooStockQuoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private ServletContext ctx;
-    private String salutationXml;
-    private String valedictionXml;
-    private String defaultXml;
+    
     
 	
 	/**
@@ -41,8 +39,8 @@ public class YahooStockQuoteServlet extends HttpServlet {
      * @see Servlet#init(ServletConfig)
      */
     public void init(ServletConfig servletCfg) throws ServletException {
-    	super.init(servletCfg);
-    	//greeting = config.getInitParameter("greeting");
+    	ctx = servletCfg.getServletContext();
+    	System.out.println("server started");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,20 +49,18 @@ public class YahooStockQuoteServlet extends HttpServlet {
 
     void serviceRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String symbol = null;
-        String contentType = request.getContentType();
-        if(contentType != null && contentType.startsWith("application/json")) {
-            ObjectMapper quote = new ObjectMapper();
-            Properties respStr = (Properties)quote.readValue(request.getInputStream(), Properties.class);
-            symbol = respStr.getProperty("symbol");
-        } else {
+       try{
             symbol = request.getParameter("symbol");
-        }
-
-        YahooQuote quote1 = YahooQuote.getQuote(symbol);
+        final YahooQuote quote = YahooQuote.getQuote(symbol);
+        
+        String respStr1 = String.format("<quote>%n  <symbol>%s</symbol>%n  <price>%6.2f</price>%n</quote>", quote.getSymbol(),quote.getPrice() / 100.0D);
         response.setContentType("text/xml");
-        String respStr1 = String.format("<quote>%n  <symbol>%s</symbol>%n  <price>%6.2f</price>%n</quote>", new Object[]{quote1.getSymbol(), Double.valueOf((double)quote1.getPrice() / 100.0D)});
         response.setContentLength(respStr1.length());
         response.getWriter().print(respStr1);
+    }catch(NumberFormatException e){
+    	ctx.log("Error: Quote request failed", e);
+    	response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR , "Quote not available for " + symbol);
+    }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

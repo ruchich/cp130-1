@@ -3,17 +3,18 @@ package edu.uw.ruc.web;
 
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 
 public class CharResponseWrapper  extends HttpServletResponseWrapper {
-    private final CharArrayWriter output;
+    private final StringWriter output;
 
     public CharResponseWrapper(final HttpServletResponse response) {
         super(response);
-        output = new CharArrayWriter();
+        output = new StringWriter();
     }
 
     @Override

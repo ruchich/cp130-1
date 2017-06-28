@@ -8,12 +8,18 @@ import java.util.Calendar;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 public class QuoteTransformFilter implements Filter {
     FilterConfig cfg;
+    private ServletContext  ctx;
+    private String htmlstylePath;
+    private String jsonstylePath;
+    private String plainstylePath;
+    
 
     public QuoteTransformFilter() {
     }
@@ -28,17 +34,17 @@ public class QuoteTransformFilter implements Filter {
 
     public void init(FilterConfig fConfig) throws ServletException {
         this.cfg = fConfig;
-        String path = this.cfg.getInitParameter("filename");
-        String stylepath = this.cfg.getServletContext().getRealPath(path);
-        this.cfg.getServletContext().log("Path: " + stylepath);
-
-        try {
-            FileReader e = new FileReader(stylepath);
-            BufferedReader br = new BufferedReader(e);
-            this.cfg.getServletContext().log("Message: " + br.readLine());
-        } catch (IOException var6) {
-            this.cfg.getServletContext().log("Uh oh", var6);
-        }
+    	ctx = this.cfg.getServletContext();
+        String styleSheet = this.cfg.getInitParameter("html-transform");
+         htmlstylePath = ctx.getRealPath(styleSheet);
+         styleSheet = this.cfg.getInitParameter("json-transform");
+         jsonstylePath = ctx.getRealPath(styleSheet);
+         styleSheet = this.cfg.getInitParameter("plain-transform");
+         plainstylePath = ctx.getRealPath(styleSheet);
+        
+        ctx.log(htmlstylePath);
+        ctx.log(jsonstylePath);
+        ctx.log(plainstylePath);
 
     }
 }
