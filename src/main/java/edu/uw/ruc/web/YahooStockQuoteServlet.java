@@ -40,7 +40,7 @@ public class YahooStockQuoteServlet extends HttpServlet {
      */
     public void init(ServletConfig servletCfg) throws ServletException {
     	ctx = servletCfg.getServletContext();
-    	System.out.println("server started");
+    	
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

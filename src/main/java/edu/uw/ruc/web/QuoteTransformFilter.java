@@ -33,9 +33,9 @@ public class QuoteTransformFilter implements Filter {
     }
 
     public void init(FilterConfig fConfig) throws ServletException {
-        this.cfg = fConfig;
-    	ctx = this.cfg.getServletContext();
-        String styleSheet = this.cfg.getInitParameter("html-transform");
+        
+    	ctx = fConfig.getServletContext();
+        String styleSheet = fConfig.getInitParameter("html-transform");
          htmlstylePath = ctx.getRealPath(styleSheet);
          styleSheet = this.cfg.getInitParameter("json-transform");
          jsonstylePath = ctx.getRealPath(styleSheet);
